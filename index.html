@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/paper/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top ">
+    <div class="container">
+        <div class="navbar-header">
+          <a href="./" class="navbar-brand">Graph Visualizer</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+          </button>
+        </div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+			<ul class="nav navbar-nav">
+				<li><a href="#"></a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://github.com/anonymousr007/discrete-structure-project" target="_blank">GitHub Project <i class="fa fa-external-link" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>
+    </div>
+</nav>
+<div class="container" id="wrap">
+	<div class="row" style="margin-top:100px">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-8 col-sm-offset-4 hidden-xs" style="z-index:999">
+			<div class="btn-group btn-group-justified" id="algo_setup">
+				<a href="#" class="btn btn-warning" data-toggle="modal" data-target="#prim_modal">Prim's</a>
+				<a href="#" class="btn btn-info" data-toggle="modal" data-target="#kruskal_modal">Kruskal's</a>
+				<a href="#" class="btn btn-success" data-toggle="modal" data-target="#dijkstra_modal">Dijkstra's</a>
+				<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#advanced_modal"><span class="hidden-sm hidden-xs">Advanced Info</span><span class="hidden-lg hidden-md">Adv Info</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" style="margin-top:-35px">
+			<div class="hidden-lg">
+				<h4><span class="hidden-md">Graph </span>Settings:</h4>
+				<select class="form-control" id="graph_setting_select">
+					<option value="gt">Graph Type</option>
+					<option value="bi">Basic Info</option>
+					<option value="go">Graph Options</option>
+				</select>
+				<hr>
+			</div>
+			<div id="graph_type">
+				<h5>Graph Type:</h5>
+				<div class="radio non_custom">
+					<label>
+						<h5>
+							<input type="radio" name="graphTypes" id="cGraph" value="c" checked="">C<sub>n</sub> Graph
+						</h5>
+					</label>
+				</div>
+				<div class="radio non_custom">
+					<label>
+						<h5>
+							<input type="radio" name="graphTypes" id="wGraph" value="w">W<sub>n</sub> Graph
+						</h5>
+					</label>
+				</div>
+				<div class="radio non_custom">
+					<label>
+						<h5>
+							<input type="radio" name="graphTypes" id="kGraph" value="k">K<sub>n</sub> Graph
+						</h5>
+					</label>
+				</div>
+				<div class="radio non_custom">
+					<label>
+						<h5>
+							<input type="radio" name="graphTypes" id="kijGraph" value="kk">K<sub>i,j</sub> Graph
+						</h5>
+					</label>
+				</div>
+				<div class="radio non_custom">
+					<label>
+						<h5>
+							<input type="radio" name="graphTypes" id="qGraph" value="q">Q<sub>n</sub> Graph
+						</h5>
+					</label>
+				</div>
+				<div id="custom_back" style="visibility: hidden; height:0px">
+					<label>
+						<h5>
+							<a id="custom_back_button" class="btn btn-link text-primary">< Back</a>
+						</h5>
+					</label>
+				</div>
+				<div class="radio" style="margin-top:0px">
+					<label>
+						<h5>
+							<input type="radio" name="graphTypes" id="aGraph" value="a">Custom Graph
+						</h5>
+					</label>
+				</div>
+				<hr>
+				<div class="row non_custom">
+					<div class="col-lg-6">
+						<h4><span id="graph_type_name">C</span><sub><span id="graph_type_index">n</span></sub>:</h4>
+						<input type="number" name="graph_size" id="graph_size" value="4" min="1" max="100">
+					</div>
+					<div class="col-lg-6">
+						<div id="alt_num" style="visibility:hidden">
+							<h4>K<sub>j</sub>:</h4>
+							<input type="number" name="graph_size_alt" id="graph_size_alt" value="2" min="1" max="100">
+						</div>
+					</div>
+				</div>
+				<div class="row custom" style="text-align:center" >
+					<a id="custom_add_node" class="btn btn-primary">Add Node</a>
+				</div>
+				<div class="row custom" style="text-align:center" >
+					<div class="row">
+						<h5>Source:</h5>
+						<input name="source_name" id="source_name">
+					</div>
+					<div class="row">
+						<h5>Target:</h5>
+						<input name="target_name" id="target_name">
+					</div>
+					<div class="row">
+						<h5>Weight:</h5>
+						<input type="number" name="edge_weight" id="edge_weight">
+					</div>
+					<br>
+					<div class="row">
+						<a id="custom_add_edge" class="btn btn-primary">Add Edge</a>
+					</div>
+				</div>
+			</div>
+			<div class="hidden-lg">
+				<div id="basic_info" style="visibility:hidden;height:0px">
+					<h5>Basic Info:</h5>
+					<div class="well">
+						<p><b>Vertex Count:</b> <span id="vertex_count_alt">57</span></p>
+						<p><b>Edge Count:</b> <span id="edge_count_alt">57</span></p>
+					</div>
+				</div>
+				<div id="graph_options" style="visibility:hidden;height:0px">
+					<h5>Graph Options:</h5>
+					<div class="checkbox">
+						<label>
+							<input id="node_labels_alt" onclick="javascript:showNodesLabels()" type="checkbox" checked=""> Show Node Labels
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input id="edge_labels_alt" onclick="javascript:showEdgeLabels()" type="checkbox"> Show Edge Weights
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input id="show_nodes_alt" onclick="javascript:showNodes()" type="checkbox" checked=""> Show Nodes
+						</label>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input id="show_edges_alt" onclick="javascript:showEdges()" type="checkbox" checked=""> Show Edges
+						</label>
+					</div>
+					<div class="btn-group-vertical">
+						<div class="btn-group-justified">
+						  <a onclick="javascript:zoomIn()" class="btn btn-success"><i class="fa fa-search-plus" aria-hidden="true"></i> In</a>
+						  <a onclick="javascript:zoomOut()"class="btn btn-danger"><i class="fa fa-search-minus" aria-hidden="true"></i> Out</a>
+						</div>
+						<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
+						<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
+						<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
+						<a href="#" class="btn btn-default importexport_button" data-toggle="modal" data-target="#importexport_modal">Import/Export</a>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-8 col-md-10 col-sm-8 col-xs-12">
+			<div class="btn-group btn-group-justified visible-xs col-xs-12" id="algo_setup">
+				<a href="#" class="btn btn-warning" data-toggle="modal" data-target="#prim_modal">Prim's</a>
+				<a href="#" class="btn btn-info" data-toggle="modal" data-target="#kruskal_modal">Kruskal's</a>
+				<a href="#" class="btn btn-success" data-toggle="modal" data-target="#dijkstra_modal">Dijkstra's</a>
+				<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#advanced_modal"><span class="hidden-sm hidden-xs"></span><span class="hidden-lg hidden-md"></span></a>
+			</div>
+			<div id="graph_panel" class="panel panel-default" style="height:460px; max-height:460px">
+				<div class="panel-body">
+					<div id="graph_box">
+						<div id="graph-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hidden-md hidden-sm hidden-xs">
+			<div class="col-lg-2 hidden-md hidden-sm hidden-xs" style="margin-top:-35px">
+				<h5>Basic Info:</h5>
+				<div class="well">
+					<p style="margin:0 0 0em"><b>Vertex Count:</b> <span id="vertex_count">57</span></p>
+					<p style="margin:0 0 0em"><b>Edge Count:</b> <span id="edge_count">57</span></p>
+				</div>
+				<hr>
+				<h5>Graph Options:</h5>
+				<div class="checkbox">
+					<label>
+						<input id="node_labels" onclick="javascript:showNodesLabels()" type="checkbox" checked=""> Show Node Labels
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input id="edge_labels" onclick="javascript:showEdgeLabels()" type="checkbox"> Show Edge Weights
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input id="show_nodes" onclick="javascript:showNodes()" type="checkbox" checked=""> Show Nodes
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input id="show_edges" onclick="javascript:showEdges()" type="checkbox" checked=""> Show Edges
+					</label>
+				</div>
+				<div class="btn-group-vertical">
+					<div class="btn-group-justified">
+					  <a onclick="javascript:zoomIn()" class="btn btn-success"><i class="fa fa-search-plus" aria-hidden="true"></i> In</a>
+					  <a onclick="javascript:zoomOut()" class="btn btn-danger"><i class="fa fa-search-minus" aria-hidden="true"></i> Out</a>
+					</div>
+					<a onclick="javascript:regenColors()" class="btn btn-info">Regenerate Colors</a>
+					<a onclick="javascript:randomizeWeights()" class="btn btn-warning">Random Weights</a>
+					<a onclick="javascript:downloadGraph()" class="btn btn-primary">Download</a>
+					<a href="#" class="btn btn-default importexport_button" data-toggle="modal" data-target="#importexport_modal">Import/Export</a>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div id="algo_run_info" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-2 col-sm-8 col-sm-offset-4 well show_algo" style="z-index:999; margin-top:-25px; visibility: hidden; height:0px">
+			<p><b>Path Weight:&nbsp;</b><span id="algo_weight"></span>&nbsp;&nbsp;<b>Path:&nbsp;</b><span id="algo_path"></span><span id="algo_hide_info" class="badge pull-right" style="cursor:pointer"><i class="fa fa-times" aria-hidden="true"></i></span></p>
+		</div>
+	</div>
+</div>
+<!-- MODALS -->
+<div class="modal" id="prim_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Prim's Algorithm</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<h6><label for="prim_start_node" class="col-lg-4 control-label">Choose Starting Node</label></h6>
+			<div class="col-lg-8">
+				<select class="form-control" id="prim_start_node">
+				</select>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-warning" id="run_prim">Run Algorithm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="kruskal_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Kruskal's Algorithm</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-info" id="run_kruskal">Run Algorithm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="dijkstra_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Dijkstra's Algorithm</h4>
+      </div>
+      <div class="modal-body">
+		<div class="row">
+			<h6><label for="dijkstra_start_node" class="col-lg-4 control-label">Choose Starting Node</label></h6>
+			<div class="col-lg-8">
+				<select class="form-control" id="dijkstra_start_node">
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<h6><label for="dijkstra_end_node" class="col-lg-4 control-label">Choose Ending Node</label></h6>
+			<div class="col-lg-8">
+				<select class="form-control" id="dijkstra_end_node">
+				</select>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" id="run_dijkstra">Run Algorithm</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="advanced_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Advanced Graph Info</h4>
+      </div>
+      <div class="modal-body">
+		<p>Section currently in progress. Check back later!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="importexport_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Import / Export Graph Data</h4>
+      </div>
+      <div class="modal-body">
+		<h5>Import Data</h5>
+		<textarea class="form-control" rows="3" id="import_data"></textarea>
+		<br>
+		<a onclick="javascript:importGraph()" class="btn btn-success">Import Graph</a>
+		<h5>Export Data</h5>
+		<textarea class="form-control" rows="3" id="export_data"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script async src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="./src/js/sigma.core.js"></script>
+<script src="./src/js/conrad.js"></script>
+<script src="./src/js/sigma.utils.js"></script>
+<script src="./src/js/sigma.polyfills.js"></script>
+<script src="./src/js/sigma.settings.js"></script>
+<script src="./src/js/sigma.classes.dispatcher.js"></script>
+<script src="./src/js/sigma.classes.configurable.js"></script>
+<script src="./src/js/sigma.classes.graph.js"></script>
+<script src="./src/js/sigma.classes.camera.js"></script>
+<script src="./src/js/sigma.classes.quad.js"></script>
+<script src="./src/js/sigma.classes.edgequad.js"></script>
+<script src="./src/js/sigma.captors.mouse.js"></script>
+<script src="./src/js/sigma.captors.touch.js"></script>
+<script src="./src/js/sigma.renderers.canvas.js"></script>
+<script src="./src/js/sigma.renderers.webgl.js"></script>
+<script src="./src/js/sigma.renderers.svg.js"></script>
+<script src="./src/js/sigma.renderers.def.js"></script>
+<script src="./src/js/sigma.renderers.snapshot.js"></script>
+<script src="./src/js/sigma.webgl.nodes.def.js"></script>
+<script src="./src/js/sigma.webgl.nodes.fast.js"></script>
+<script src="./src/js/sigma.webgl.edges.def.js"></script>
+<script src="./src/js/sigma.webgl.edges.fast.js"></script>
+<script src="./src/js/sigma.webgl.edges.arrow.js"></script>
+<script src="./src/js/sigma.canvas.labels.def.js"></script>
+<script src="./src/js/sigma.canvas.hovers.def.js"></script>
+<script src="./src/js/sigma.canvas.nodes.def.js"></script>
+<script src="./src/js/sigma.canvas.edges.def.js"></script>
+<script src="./src/js/sigma.canvas.edges.curve.js"></script>
+<script src="./src/js/sigma.canvas.edges.arrow.js"></script>
+<script src="./src/js/sigma.canvas.edges.curvedArrow.js"></script>
+<script src="./src/js/sigma.canvas.edgehovers.def.js"></script>
+<script src="./src/js/sigma.canvas.edgehovers.curve.js"></script>
+<script src="./src/js/sigma.canvas.edgehovers.arrow.js"></script>
+<script src="./src/js/sigma.canvas.edgehovers.curvedArrow.js"></script>
+<script src="./src/js/sigma.canvas.extremities.def.js"></script>
+<script src="./src/js/sigma.svg.utils.js"></script>
+<script src="./src/js/sigma.svg.nodes.def.js"></script>
+<script src="./src/js/sigma.svg.edges.def.js"></script>
+<script src="./src/js/sigma.svg.edges.curve.js"></script>
+<script src="./src/js/sigma.svg.labels.def.js"></script>
+<script src="./src/js/sigma.svg.hovers.def.js"></script>
+<script src="./src/js/sigma.middlewares.rescale.js"></script>
+<script src="./src/js/sigma.middlewares.copy.js"></script>
+<script src="./src/js/sigma.misc.animation.js"></script>
+<script src="./src/js/sigma.misc.bindEvents.js"></script>
+<script src="./src/js/sigma.misc.bindDOMEvents.js"></script>
+<script src="./src/js/sigma.misc.drawHovers.js"></script>
+<script src="./src/js/sigma.plugins.dragNodes.js"></script>
+<script src="./src/js/sigma.plugins.parallelEdges.utils.js"></script>
+<script src="./src/js/settings.js"></script>
+<script src="./src/js/sigma.canvas.edges.labels.def.js"></script>
+<script src="./src/js/sigma.canvas.edges.labels.curve.js"></script>
+<script src="./src/js/sigma.canvas.edges.labels.curvedArrow.js"></script>
+<script src="./src/js/main.js"></script>
+</body>
+</html>
