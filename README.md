@@ -1,1 +1,1 @@
-# discrete-structure-project
+# Graph Visualization
